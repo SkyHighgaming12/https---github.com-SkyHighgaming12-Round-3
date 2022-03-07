@@ -10,14 +10,21 @@ import {
     IonIcon,
     IonActionSheet
 }from '@ionic/react';
-import { chevronBack, ellipsisHorizontal, trash, close, closeCircle } from 'ionicons/icons';
+import { 
+    chevronBack, 
+    ellipsisHorizontal, 
+    trash, 
+    close, 
+    // closeCircle 
+} 
+    from 'ionicons/icons';
 import styles from './NoteEditPage.module.css';
 
 export default function NoteEditPage(props) {
 const {
     text, 
     onSave,
-    onCancel,
+    // onCancel,
     onDelete,
     ids
 } = props;
@@ -60,12 +67,13 @@ const [showActions, setShowActions] = useState(false)
                         role: 'cancel',
                         icon: close,
                         handler: () => setShowActions(false)
-                    },
-                    {
-                        text: 'Cancel Edit',
-                        icon: closeCircle,
-                        handler: () => onCancel()
                     }
+                    // ,
+                    // {
+                    //     text: 'Cancel Edit',
+                    //     icon: closeCircle,
+                    //     handler: () => onCancel()
+                    // }
                 ]}
             >
                     

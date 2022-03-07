@@ -1,67 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NoteListItem from './NoteListItem';
-import NoteEditPage from './NoteEditPage';
+import { useHistory } from 'react-router-dom';
 import {
     IonHeader,
     IonPage,
     IonToolbar,
     IonTitle,
     IonContent,
-    IonList
+    IonList,
+    IonFab,
+    IonFabButton,
+    IonIcon
 }from '@ionic/react';
+import useNotes from '../hooks/useNotes'
+import { add } from 'ionicons/icons';
 
-const initialNotes = [
-    {
-        id: "1", 
-        createdAt: new Date(),
-        text: "Note 1 BabyYYYYYYYYYYYY"
-    },
-    {
-        id: "2", 
-        createdAt: new Date(),
-        text: "Note 2 BabyYYYYYYYYYYYY"
-    },
-    {
-        id: "3", 
-        createdAt: new Date(),
-        text: "React _is_ **fun**!"
-    }
-];
+
 export default function NoteListPage(props){
-    const[selectedNoteId, setSelectedNoteId] = useState(null);
-    const[notes, setNotes] = useState(initialNotes);
-    //save
-    const handleOnSave= (newNoteText) => {
-        const updatedNotes = notes.map((note) =>{
-            if(note.id===selectedNoteId){
-                return{
-                    ...note,
-                    text: newNoteText
-                };
-            }
-            return note;
-        });
-        setNotes(updatedNotes); 
-        setSelectedNoteId(null);
-    }
-    //cancel
-    const handleOnCancel = () =>{
-        setSelectedNoteId(null);
-    }
-    //delete
-    const handleOnDelete = (e) => {
-        setSelectedNoteId(null);
-        setNotes(notes.filter((es)=>(es.id !== e)));
-    }
-    //Click to edit
-    if (selectedNoteId){
-        const selectedNote = notes.find((note) => note.id === selectedNoteId)
-        return (
-            <NoteEditPage onSave={handleOnSave} onCancel={handleOnCancel} onDelete={handleOnDelete} text={selectedNote.text} ids={selectedNote.id} />
-        )
-    }
+    const history = useHistory();
+    const { notes, createNote } = useNotes();
+    
+    
     const handleListItemClick = (id) => {
-        setSelectedNoteId(id)
+        history.push(`/notes/edit/${id}`);
+    }
+    const handleNewNoteClick = () => {
+        const { id } = createNote();
+        history.push(`/notes/edit/${id}`)
     }
 //list page
     return (
@@ -88,6 +53,11 @@ export default function NoteListPage(props){
                         })
                     }
                 </IonList>
+                <IonFab vertical="bottom" horizontal='end' slot='fixed'>
+                    <IonFabButton onClick={handleNewNoteClick}>
+                        <IonIcon icon={add} />    
+                    </IonFabButton>
+                </IonFab>
             </IonContent>
         </IonPage>
     )

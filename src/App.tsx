@@ -1,8 +1,9 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+import NoteEditPageController from './components/NoteEditPageController.js';
 import NoteListPage from './components/NoteListPage';
+import { NotesProvider } from './hooks/useNotes.js';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -26,18 +27,17 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/home">
-          <NoteListPage />
-        </Route>
-        <Route exact path="/">
-          <NoteListPage />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
+  <NotesProvider>
+    <IonApp>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route exact path="/notes/edit/:id" component={NoteEditPageController} />
+          <Route exact path="/notes" component={NoteListPage} />
+          <Redirect exact from='/' to='/notes' />
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </IonApp>
+  </NotesProvider>
 );
 
 export default App;
