@@ -1,0 +1,7 @@
+.header{
+    --ion-toolbar-background: #5438DC !important;
+}
+.notes{
+    --ion-item-background: #E6FDEE !important;
+    --ion-color-step-600: black !important;
+}

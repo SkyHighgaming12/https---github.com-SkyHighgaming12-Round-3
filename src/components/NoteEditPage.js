@@ -8,7 +8,9 @@ import {
     IonButtons,
     IonButton,
     IonIcon,
-    IonActionSheet
+    IonActionSheet,
+    useIonAlert,
+    IonAlert
 }from '@ionic/react';
 import { 
     chevronBack, 
@@ -30,9 +32,10 @@ const {
 } = props;
 const [value, setValue] = useState(text)
 const [showActions, setShowActions] = useState(false)
+const [showAlert1, setShowAlert1] = useState(false)
     return(
         <IonPage>
-            <IonHeader>
+            <IonHeader className="header">
                 <IonToolbar>
                     <IonButtons slot="secondary">
                         <IonButton color="secondary" onClick={() => onSave(value)}>
@@ -60,7 +63,7 @@ const [showActions, setShowActions] = useState(false)
                         text: 'Delete',
                         role: 'destructive',
                         icon: trash,
-                        handler: () => onDelete(ids)
+                        handler: () => setShowAlert1(true)
                     },
                     {
                         text: 'Cancel',
@@ -68,16 +71,31 @@ const [showActions, setShowActions] = useState(false)
                         icon: close,
                         handler: () => setShowActions(false)
                     }
-                    // ,
-                    // {
-                    //     text: 'Cancel Edit',
-                    //     icon: closeCircle,
-                    //     handler: () => onCancel()
-                    // }
                 ]}
-            >
-                    
+            >     
+            {/* () => onDelete(ids) */}
             </IonActionSheet>
+            <IonAlert
+                isOpen={showAlert1}
+                onDidDismiss={() => setShowAlert1(false)}
+                cssClass='my-custom-class'
+                header={'Delete'}
+                message={'Are you sure you want to delete this note?'}
+                buttons={[
+                    {
+                        text: 'Yes',
+                        role: 'destructive',
+                        icon: trash,
+                        handler: () => onDelete(ids)
+                    },
+                    {
+                        text: 'No',
+                        role: 'cancel',
+                        icon: close,
+                        handler: () => setShowActions(false)
+                    }
+                ]}
+            />
         </IonPage>
     )
 }

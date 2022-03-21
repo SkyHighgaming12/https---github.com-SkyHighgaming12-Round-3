@@ -31,13 +31,13 @@ export default function NoteListPage(props){
 //list page
     return (
         <IonPage>
-            <IonHeader>
+            <IonHeader className='header'>
                 <IonToolbar>
                     <IonTitle>Note List</IonTitle>
                 </IonToolbar>
             </IonHeader>
             
-            <IonContent>
+            <IonContent className="notes">
                 <IonList lines="full">
                     {
                         notes.map((note) => {

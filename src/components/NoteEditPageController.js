@@ -15,13 +15,14 @@ export default function NoteEditPageController(){
 
     //save
     const handleOnSave= (newText) => {
-        updateNote(id, newText)
+        let text2 = newText.trim(newText);
+        if(text2 === ""){
+            deleteNote(id)
+        }else{
+           updateNote(id, text2) 
+        }
         history.goBack();
     }
-    // //cancel
-    // const handleOnCancel = () =>{
-    // history.goBack();
-    // }
 
     //delete
     const handleOnDelete = (e) => {

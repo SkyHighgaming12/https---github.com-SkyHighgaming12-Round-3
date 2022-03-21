@@ -5,6 +5,7 @@ import NoteEditPageController from './components/NoteEditPageController.js';
 import NoteListPage from './components/NoteListPage';
 import { NotesProvider } from './hooks/useNotes.js';
 
+
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -23,13 +24,13 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-
+import './app.css';
 setupIonicReact();
 
 const App: React.FC = () => (
   <NotesProvider>
     <IonApp>
-      <IonReactRouter>
+      <IonReactRouter >
         <IonRouterOutlet>
           <Route exact path="/notes/edit/:id" component={NoteEditPageController} />
           <Route exact path="/notes" component={NoteListPage} />
