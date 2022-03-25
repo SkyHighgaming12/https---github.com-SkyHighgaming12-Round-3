@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMarkdown from 'react-markdown';
-import FormateDate from './../util/formateDate'
+import FormateDate from './../util/formateDate';
+import FormaText from './../util/formatNoteItemText';
 import {
     IonLabel,
     IonItem
@@ -17,33 +18,17 @@ export default function NoteListItem(props) {
         onclick
     } = props;
 
-    const emptyText = (text) =>{
-        let text2 = text.trim(text);
-        if(text2 === ""){
-            text2 = 'No Note Text';
-        }
-        if(text2 === " "){
-            text2 = 'No Note Text';
-        }
-        return(text2);
-    }
-    
-
     const handleItemClick = (event) => {
         event.preventDefault();
-        
         if(onclick){
             onclick(id);
         }
     }
-    // const [timesClicked, setTimesClicked] = useState(0);
-    
     return(
         <IonItem onClick={handleItemClick}>
             <IonLabel>
-                <ReactMarkdown children={emptyText(truncate(text))} />
+                <ReactMarkdown children={FormaText(text)} />
                 <p>{FormateDate(createdAt)}</p>
-                {/* <p>Ive been clicked {timesClicked} times</p> */}
             </IonLabel>
         </IonItem>
     )
@@ -54,7 +39,4 @@ NoteListItem.propTypes = {
     text: PropTypes.string.isRequired,
     createdAt: PropTypes.instanceOf(Date).isRequired,
     onclick: PropTypes.func
-}
-function truncate(str) {
-    return str.length > 200 ? str.substring(0, 197) + "..." : str;
 }

@@ -9,7 +9,6 @@ import {
     IonButton,
     IonIcon,
     IonActionSheet,
-    useIonAlert,
     IonAlert
 }from '@ionic/react';
 import { 
@@ -17,7 +16,7 @@ import {
     ellipsisHorizontal, 
     trash, 
     close, 
-    // closeCircle 
+    fileTray
 } 
     from 'ionicons/icons';
 import styles from './NoteEditPage.module.css';
@@ -26,8 +25,8 @@ export default function NoteEditPage(props) {
 const {
     text, 
     onSave,
-    // onCancel,
     onDelete,
+    onArchive,
     ids
 } = props;
 const [value, setValue] = useState(text)
@@ -64,6 +63,11 @@ const [showAlert1, setShowAlert1] = useState(false)
                         role: 'destructive',
                         icon: trash,
                         handler: () => setShowAlert1(true)
+                    },
+                    {
+                        text: 'Archive',
+                        icon: fileTray,
+                        handler: () => onArchive(ids)
                     },
                     {
                         text: 'Cancel',
