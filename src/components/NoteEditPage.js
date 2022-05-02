@@ -20,6 +20,8 @@ import {
 } 
     from 'ionicons/icons';
 import styles from './NoteEditPage.module.css';
+import { useTranslation } from "react-i18next";
+
 
 export default function NoteEditPage(props) {
 const {
@@ -32,6 +34,8 @@ const {
 const [value, setValue] = useState(text)
 const [showActions, setShowActions] = useState(false)
 const [showAlert1, setShowAlert1] = useState(false)
+const { t } = useTranslation();
+
     return(
         <IonPage>
             <IonHeader className="header">
@@ -42,7 +46,7 @@ const [showAlert1, setShowAlert1] = useState(false)
                         </IonButton>
                     </IonButtons>
                     <IonTitle>
-                        Note Edit
+                    {t("noteEditPageTitle")}
                     </IonTitle>
                     <IonButtons slot='primary'>
                         <IonButton color="secondary" onClick={() => setShowActions(true)}>
@@ -59,18 +63,18 @@ const [showAlert1, setShowAlert1] = useState(false)
                 onDidDismiss={() => setShowActions(false)}
                 buttons={[
                     {
-                        text: 'Delete',
+                        text: t("delete"),
                         role: 'destructive',
                         icon: trash,
                         handler: () => setShowAlert1(true)
                     },
                     {
-                        text: 'Archive',
+                        text: t("archive"),
                         icon: fileTray,
                         handler: () => onArchive(ids)
                     },
                     {
-                        text: 'Cancel',
+                        text: t("cancel"),
                         role: 'cancel',
                         icon: close,
                         handler: () => setShowActions(false)
@@ -83,17 +87,17 @@ const [showAlert1, setShowAlert1] = useState(false)
                 isOpen={showAlert1}
                 onDidDismiss={() => setShowAlert1(false)}
                 cssClass='my-custom-class'
-                header={'Delete'}
-                message={'Are you sure you want to delete this note?'}
+                header={t("delete")}
+                message= {t("confirm")}
                 buttons={[
                     {
-                        text: 'Yes',
+                        text: t("yes"),
                         role: 'destructive',
                         icon: trash,
                         handler: () => onDelete(ids)
                     },
                     {
-                        text: 'No',
+                        text: t("no"),
                         role: 'cancel',
                         icon: close,
                         handler: () => setShowActions(false)

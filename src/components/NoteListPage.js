@@ -14,20 +14,60 @@ import {
     IonButton,
     IonButtons
 }from '@ionic/react';
-import useNotes from '../hooks/useNotes'
+// import useNotes from '../hooks/useNotes'
 import { 
     add,
     funnel
  } from 'ionicons/icons';
  import { useTranslation } from "react-i18next";
+ import { gql, useMutation, useQuery } from "@apollo/client";
 
+export const GET_NOTES = gql`
+    {
+        notes(isArchived: true){
+            id
+            createdAt
+            isArchived
+            text
+        }
+    }
+`;
+
+const CREATE_NOTE = gql`
+    mutation createNote($note: CreateNoteInput!){
+        createNote(note: $note){
+            id
+            createdAt
+            isArchived
+            text
+        }
+    }
+`;
 
 
 export default function NoteListPage(props){
+    const [createNote] = useMutation(CREATE_NOTE, {
+        onCompleted(data){
+            if(data && data.createNote){
+                const id = data.createNote.id;
+                history.push(`/notes/edit/${id}`);
+            }
+        },
+        refetchQueries: [
+            {
+                query: GET_NOTES
+            }
+        ]
+    })
+    
+    const { data } = useQuery(GET_NOTES, {
+        pollInterval: 5000
+    })
     const history = useHistory();
-    const { notes, createNote } = useNotes();
+    // const { notes, createNote } = useNotes();
     const [filter, setFilter] = useState(true);
     const { t } = useTranslation();
+    const notes = (data && data.notes) || [];
 
 
     let copy;
@@ -40,8 +80,13 @@ export default function NoteListPage(props){
         history.push(`/notes/edit/${id}`);
     }
     const handleNewNoteClick = () => {
-        const { id } = createNote();
-        history.push(`/notes/edit/${id}`)
+        createNote({
+            variables: {
+                note: {
+                    text: ""
+                }
+            }
+        });
     }
     const handleToggle = () => {
         if(filter){
@@ -75,7 +120,7 @@ export default function NoteListPage(props){
                                     id={note.id}
                                     key={note.id}
                                     text={note.text}
-                                    createdAt= {note.createdAt}
+                                    createdAt= {new Date(note.createdAt)}
                                     onclick={handleListItemClick}
                                 />
                             )

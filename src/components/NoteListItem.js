@@ -7,6 +7,7 @@ import {
     IonLabel,
     IonItem
 }from '@ionic/react';
+import { useTranslation } from "react-i18next";
 
 
 export default function NoteListItem(props) {
@@ -17,6 +18,7 @@ export default function NoteListItem(props) {
         createdAt,
         onclick
     } = props;
+    const { t } = useTranslation();
 
     const handleItemClick = (event) => {
         event.preventDefault();
